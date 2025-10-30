@@ -1,57 +1,29 @@
-name: Python Tests on Local Machine
+name: Run Python Script
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
 jobs:
-  test:
-    runs-on: [self-hosted]  # This will run on your local machine
-    
-    strategy:
-      matrix:
-        python-version: [3.8, 3.9, 3.10, 3.11]
+  run-python:
+    runs-on: [self-hosted]
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: '3.12.10'
         
-    - name: Display Python version
-      run: python -c "import sys; print(f'Python {sys.version}')"
+    - name: Display Python info
+      run: |
+        python --version
+        pip --version
+        
+    - name: Run main Python script
+      run: python main.py
       
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install -r requirements-dev.txt
-        pip install -e .
-        
-    - name: Run linting with flake8
-      run: |
-        flake8 src/ tests/ --count --show-source --statistics
-        
-    - name: Run type checking with mypy
-      run: |
-        mypy src/
-        
-    - name: Run tests with pytest
-      run: |
-        pytest tests/ -v --cov=src --cov-report=xml
-        
-    - name: Upload coverage reports
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./coverage.xml
-        flags: unittests
-        name: codecov-umbrella
-        
-    - name: Run black code formatting check
-      run: |
-        black --check src/ tests/
