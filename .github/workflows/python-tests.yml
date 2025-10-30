@@ -13,9 +13,5 @@ jobs:
       uses: actions/checkout@v4
       
     - name: Run Python Script
+      shell: cmd  
       run: python main.py
-      
-    - name: Show Results
-      run: |
-        cat success.txt || echo "No success file"
-        ls -la
