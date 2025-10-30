@@ -1,23 +1,21 @@
-from utils import calculate_stats, format_message
+import os
+import sys
 
-def main():
-    print("🚀 Running Python Script on GitHub Actions!")
-    
-    # Test calculations
-    numbers = [10, 20, 30, 40, 50]
-    stats = calculate_stats(numbers)
-    
-    # Display results
-    message = format_message("Calculation Results", stats)
-    print(message)
-    
-    # Simple file operation
-    with open("output.txt", "w") as f:
-        f.write(f"Results: {stats}")
-    
-    print("✅ Script completed successfully!")
-    return stats
+print("🚀 Python Script Running from GitHub Actions!")
+print(f"Python version: {sys.version}")
+print(f"Working directory: {os.getcwd()}")
 
-if __name__ == "__main__":
-    result = main()
-    print(f"Final result: {result}")
+# Simple function
+def calculate(a, b):
+    return a + b
+
+result = calculate(15, 25)
+print(f"Calculation: 15 + 25 = {result}")
+
+# Create a file
+with open('success.txt', 'w') as f:
+    f.write(f'Success! Python {sys.version.split()[0]} ran on GitHub Actions!')
+    f.write(f'\nCalculation result: {result}')
+
+print("✅ Script completed successfully!")
+print("✅ Created success.txt file")
