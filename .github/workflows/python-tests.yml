@@ -1,9 +1,7 @@
-name: Run Python Script
+name: Simple Python Run
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
     branches: [ main ]
 
 jobs:
@@ -14,16 +12,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.12.10'
-        
-    - name: Display Python info
-      run: |
-        python --version
-        pip --version
-        
-    - name: Run main Python script
+    - name: Run Python Script
       run: python main.py
       
+    - name: Show Results
+      run: |
+        cat success.txt || echo "No success file"
+        ls -la
